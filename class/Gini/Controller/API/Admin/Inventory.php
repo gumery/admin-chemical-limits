@@ -69,10 +69,65 @@ class Inventory extends \Gini\Controller\API
         ];
     }
 
-    public function actionGetGroupLimits($group_id=null) {
+    public function actionGetGroupLimits($groupID=null) {
         return those('inventory/reagent')
-            ->whose('group_id')->is($group_id)
+            ->whose('group_id')->is($groupID)
             ->orWhose('group_id')->is(null)
             ->get('cas_no', 'volume');
+    }
+
+    public function actionSearchGroupRequests(array $criteria=[])
+    {
+        $result = [
+            'token'=> '',
+            'count'=> 0
+        ];
+        $groupID = $criteria['group_id'];
+        if (!$groupID) return $result;
+        $group = a('group', $groupID);
+        if ($group->id) return $result;
+
+        $result['token'] = md5(J($criteria));
+        $result['count'] = those('inventory/request')->whose('group')->is($group)->totalCount();
+        $_SESSION[$token] = $criteria;
+
+        return $result;
+    }
+
+    public function actionGetGroupRequests($token, $start=0, $perpage=25)
+    {
+        $criteria = $_SESSION[$token];
+        $start = max($start, 0);
+        $perpage = min(max(0, $perpage), 25);
+        $group = a('group', $criteria['group_id']);
+        if (!$group->id) return [];
+
+        $requests = those('inventory/request')->whose('group')->is($group)->limit($start, $perpage);
+
+        $result = [];
+        foreach ($requests as $request) {
+            $result[] = self::_prepareRequestData($request);
+        }
+
+        return $result;
+    }
+
+    public static function _prepareRequestData($request)
+    {
+        return [
+            'type'=> $request->type,
+            'cas_no'=> $request->cas_no,
+            'name'=> $request->name,
+            'group_id'=> $request->group->id,
+            'volume'=> $request->volume,
+            'status'=> $request->status,
+            'ctime'=> $request->ctime,
+            'owner_id'=> $request->owner->id,
+            'reject_time'=> $request->reject_time,
+            'reject_man_id'=> $request->reject_man->id,
+            'pass_time'=> $request->pass_time,
+            'pass_man_id'=> $request->pass_man->id,
+            'mtime'=> $request->mtime,
+        ];
     }
 }
