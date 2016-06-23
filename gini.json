@@ -1,0 +1,25 @@
+{
+    "name": "存量上限管理",
+    "description": "存量上限管理",
+    "version": "0.1.2",
+    "dependencies": {
+        "debade": "*",
+        "locale": "*",
+        "chem-db-client": "*",
+        "admin-base": "*",
+        "gapper-auth-njust": "*"
+    },
+    "rurl": {
+        "img": "assets/img",
+        "css": "assets/css",
+        "js": "assets/js",
+        "*": "assets"
+    },
+    "composer": {
+        "require": {
+            "michelf/php-markdown": "@stable"
+        }
+    },
+    "id": "admin-chemical-limits"
+}
+

@@ -1,0 +1,28 @@
+<div class="modal fade">
+    <div class="modal-dialog" style="width:400px;border-radius:0;">
+        <form class="form-reagent-append-chemical-volume" action="ajax/inventory/reagent/edit-volume" data-require="page/inventory/reagent-append-chemical">
+            <div class="modal-content" style="border-radius:0;">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary"><?=H(T('添加化学品'))?></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label><?=H(T('化学品名称'))?></label>
+                        <select class="selectpicker chemical-selectpicker with-ajax form-control" data-live-search="true" name="cas">
+                            <option>--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><?=H(T('存量上限'))?></label>
+                        <input type="text" name="volume" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><?=H(T('添加上限'))?></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?=H(T('取消'))?></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+

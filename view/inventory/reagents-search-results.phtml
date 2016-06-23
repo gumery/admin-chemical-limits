@@ -1,0 +1,66 @@
+<?php if (count($reagents)) {?>
+<?php foreach ($reagents as $reagent) {?>
+    <?php $vSubs = $subReagents[$reagent->cas_no] ?: []; ?>
+<div class="board-content-reagent-li">
+    <div class="row board-content-reagent-li-row">
+        <div>
+            <div class="col-md-2"><?=H($reagent->cas_no)?></div>
+            <div class="col-md-4">
+                <?php
+                $vClassName = '';
+                $vClassTitle = '';
+                $vRTypes = (array)$reagent->type;
+                $vTCT = [
+                    'drug_precursor'=> [
+                        'class'=> 'inventory-type inventory-type-drug',
+                        'txt'=> T('易制毒')
+                    ],
+                    'hazardous'=> [
+                        'class'=> 'inventory-type inventory-type-hazar',
+                        'txt'=> T('危险品')
+                    ],
+                    'highly_toxic'=> [
+                        'class'=> 'inventory-type inventory-type-toxic',
+                        'txt'=> T('剧毒品')
+                    ],
+                    'explosive'=> [
+                        'class'=> 'inventory-type inventory-type-explosive',
+                        'txt'=> T('易制爆')
+                    ]
+                ];
+                foreach ($vRTypes as $vRType) {
+                    if (!isset($vTCT[$vRType])) {
+                        continue;
+                    }
+                    $vClassName = $vTCT[$vRType]['class'];
+                    $vClassTitle = $vTCT[$vRType]['txt'];
+                ?>
+                    <span class="<?=H($vClassName)?>"><?=$vClassTitle?></span>
+                <?php
+                }
+                ?>
+                <?=H($reagent->name)?>
+            </div>
+            <div class="col-md-3 text-right nowrap">
+                <span data-cas="<?=H($reagent->cas_no)?>" data-value="<?=H($reagent->volume)?>" class="volume-value-view"><?= $reagent->volume ? H($reagent->volume) : '<span class="text-muted">'.H(T('未设置')).'</span>'?></span>
+                <span class="fa fa-pencil btn btn-link btn-edit-cas-volume-handler"></span>
+                <span data-message="<?=empty($vSubs) ? H(T('您确定移除该设置吗?')) : H(T('您确定移除该设置吗? 改CAS号下所有课题组的设置也将一并删除'))?>" class="fa fa-times btn btn-link btn-remove-cas-volume-handler"></span>
+                <span style="display:none;" class="fa fa-check btn btn-link btn-save-cas-volume-handler"></span>
+                <span style="display:none;" class="fa fa-times btn btn-link btn-cancel-cas-volume-handler"></span>
+            </div>
+            <div class="col-md-3 text-right nowrap">
+                <span class="fa fa-plus-circle btn btn-link btn-add-group-volume-handler" data-refresh="page/inventory/reagent-refresh-special" data-require="page/inventory/reagent-add-group" data-cas-no="<?=H($reagent->cas_no)?>">&nbsp;<?=H(T('添加个别用户设定'))?></span>
+            </div>
+        </div>
+        <?=V('inventory/reagents-search-results-sub', ['subs'=> $vSubs])?>
+    </div>
+</div>
+<?php }?>
+<?php if ($more) {?>
+<div data-more="<?=H($more)?>"></div>
+<?php }?>
+<?php } elseif (empty($start)) { ?>
+<div class="text-center">
+    <h4><?=H(T('暂无数据'))?></h4>
+</div>
+<?php }?>

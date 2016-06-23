@@ -1,0 +1,16 @@
+<?php foreach ($subs as $vR) {?>
+<tr class="board-content-reagent-type-li-row board-content-reagent-li-row">
+    <td></td>
+    <td class="text-nowrap col-md-2">
+        <span style="margin-right: 20px;"><?=H($vR->group->title)?></span>
+    </td>
+    <td>
+        <span data-group="<?=H($vR->group->id)?>" data-cas="<?=H($vR->cas_no)?>" data-value="<?=H($vR->volume)?>" style="width:100px;display:inline-block;zoom:1;" class="volume-value-view"><?= $vR->volume ? H($vR->volume) : '<span class="text-muted">'.H(T('未设置')).'</span>'?></span>
+        <span class="fa fa-pencil btn btn-link btn-edit-cas-volume-handler"></span>
+        <span data-message="<?=H(T('您确定移除该设置吗?'))?>" class="fa fa-times btn btn-link btn-remove-cas-volume-handler"></span>
+        <span style="display:none" class="fa fa-check btn btn-link btn-save-cas-volume-handler"></span>
+        <span style="display:none" class="fa fa-times btn btn-link btn-cancel-cas-volume-handler"></span>
+    </td>
+    <td></td>
+</tr>
+<?php }?>

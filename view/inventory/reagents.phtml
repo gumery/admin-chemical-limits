@@ -1,0 +1,87 @@
+<div class="board-content">
+    <a href="inventory" class="btn btn-primary pull-left">
+        <i class="fa fa-fw fa-reply"></i>
+        <span><?= H(T('返回')) ?></span>
+    </a>
+</div>
+
+<div class="board-content board-content-reagent" data-require="page/inventory/reagent-list">
+
+    <div class="board-content-reagent-body">
+        <h4><?= H(T('类型存量上限'))?></h4>
+        <p class="text-muted"><?= H(T('这里会根据类型区分设置化学品的存量上限, 如果您不希望对某类别化学品的所有种类进行采购前存量的约束，请勿设置此处'))?></p>
+        <p class="text-muted"><?= H(T('* 1瓶≈500ml. 虽然系统支持"瓶"上限设定, 但由于包装差异会引起混淆, 请尽量使用"ml"或"g"用于进行限制'))?></p>
+        <table class="table table-condensed table-gini" style="margin-bottom:0">
+            <thead>
+                <tr>
+                    <th class="text-nowrap col-md-3" colspan="2"><?= H(T('化学品类型'))?></th>
+                    <th class="text-nowrap col-md-5"><?= H(T('存量上限'))?></th>
+                    <th class="text-nowrap col-md-4" >
+                        <?= H(T('采购限制考虑当次选购'))?>&#160;
+                        <label class="radio-inline">
+                            <input type="radio" name="consider_current" class="radio-cart"
+                            <?php if ($count_cart) { ?>
+                            checked = ''
+                            <?php } ?>
+                             value="1"> <?= H(T('考虑')) ?>
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="consider_current" class="radio-cart"
+                            <?php if (!$count_cart) { ?>
+                            checked = ''
+                            <?php } ?>
+                            value="0"> <?= H(T('不考虑')) ?>
+                        </label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+            foreach($default_cas_infos as $cas => $default) { 
+            ?>
+            <tr>
+                <td class="text-nowrap" colspan="2"><?= H($default['name']) ?></td>
+                <td class="text-nowrap">
+                    <span data-cas="<?= H($cas) ?>" data-value="<?= H($default['volume']) ?>" style="width:100px;display:inline-block;zoom:1;" class="volume-value-view"><?= $default['volume'] ? H($default['volume']) : '<span class="text-muted">'.H(T('未设置')).'</span>' ?></span>
+                    <span class="fa fa-pencil btn btn-link btn-edit-cas-volume-handler"></span>
+                    <span style="display:none;" class="fa fa-check btn btn-link btn-save-cas-volume-handler"></span>
+                    <span style="display:none;" class="fa fa-times btn btn-link btn-cancel-cas-volume-handler"></span>
+                </td>
+                <td>
+                    <span class="fa fa-plus-circle btn btn-link btn-add-group-volume-handler" data-refresh="page/inventory/reagent-refresh-global" data-require="page/inventory/reagent-add-group" data-type="<?=$cas?>">&nbsp;<?=H(T('添加个别用户设定'))?></span>
+                </td>
+            </tr>
+            <?=V('inventory/reagents-search-results-type-sub', ['subs' => $default['subs'] ])?>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="board-content-reagent-body">
+        <div class="board-header-form text-nowrap pull-right form-inline" style="margin-top:1.5em">
+            <select name="hazardous_type" class="form-control select">
+                <option value=""><?=H(T('全部'))?></option>
+                <?php foreach ($rgt_types as $val => $name) {?>
+                    <option value="<?php echo $val?>"><?php echo $name;?></option>
+                <?php }?>
+            </select>
+            <input type="text" name="q" class="form-control" size="40" placeholder="<?=H(T('按化学品名称或CAS号搜索'))?>" />
+            <button class="btn btn-default"><i class="fa fa-fw fa-search"></i></button>
+        </div>
+
+        <h4 class="" style="margin-bottom:10px"><?= H(T('个别存量上限'))?></h4>
+        <p class="text-muted"><?= H(T('这里会设置个别化学品的存量上限, 一旦设置，则相应的类型设置不再生效，请注意'))?></p>
+
+        <div class="board-content-reagent-title clearfix">
+            <div class="row">
+                <div class="col-md-2"><?=H(T('CAS号'))?></div>
+                <div class="col-md-4"><?=H(T('化学品名称'))?></div>
+                <div class="col-md-3 text-center"><?=H(T('存量上限'))?></div>
+                <div class="col-md-3"><span class="fa fa-plus-circle btn btn-primary btn-sm app-reagent-append-chemical-handler" data-require="page/inventory/reagent-append-chemical"><?=H(T('添加化学品'))?></span></div>
+            </div>
+        </div>
+        <div class="board-content-reagent-list">
+            <div class="loading text-center text-muted" style="padding:50px"><i class="fa fa-4x fa-spinner fa-spin"></i></div>
+        </div>
+    </div>
+</div>

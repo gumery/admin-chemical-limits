@@ -1,0 +1,28 @@
+<div class="modal fade">
+    <div class="modal-dialog" style="width:400px;">
+        <form class="form-add-group-volume" action="ajax/inventory/reagent/edit-volume" data-require="page/inventory/add-group-volume" data-handler-id="<?=H($tid)?>">
+            <div class="modal-content" style="border-radius:0;">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary"><?=H(T('添加个别设定'))?></h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="cas" value="<?=$cas_no?:$type?>" />
+                    <div class="form-group">
+                        <label><?=H(T('课题组'))?></label>
+                        <select class="selectpicker with-ajax group-selectpicker form-control" data-live-search="true" name="group">
+                            <option>--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><?=H(T('存量上限'))?></label>
+                        <input type="text" name="volume" class="form-control" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><?=H(T('添加存量上限'))?></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?=H(T('取消'))?></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
