@@ -17,10 +17,6 @@ class Inventory extends Layout\Board
 
     public function actionReagents()
     {
-        if (!_G('ME')->isAllowedTo('查看存量统计')) {
-            $this->redirect('error/401');
-        }
-
         $rgt_types = \Gini\ORM\Inventory::$rgt_types;
         $default_cas_nos = \Gini\ORM\Inventory\Reagent::$default_cas_nos;
         $defaults = [];
