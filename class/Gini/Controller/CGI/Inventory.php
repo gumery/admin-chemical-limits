@@ -4,6 +4,11 @@ namespace Gini\Controller\CGI;
 
 class Inventory extends Layout\Board
 {
+    public function __index()
+    {
+        $this->redirect('inventory/reagents');
+    }
+
     public function actionRequests()
     {
         $this->view->body = V('inventory/requests',[
