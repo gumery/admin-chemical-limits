@@ -1,0 +1,15 @@
+<?php
+$vData = [
+    'inventory/reagents'=> T('上限设置'),
+    'inventory/reagents'=> T('调整申请'),
+];
+?>
+<div class="board-content">
+    <?php foreach ($vData as $vK=>$vV) {?>
+    <a href="<?=H($vK)?>" class="btn btn-primary pull-left">
+        <span><?= H($vV) ?></span>
+    </a>
+    <?php }?>
+</div>
+
+

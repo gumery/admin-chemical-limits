@@ -4,6 +4,12 @@ namespace Gini\Controller\CGI;
 
 class Inventory extends Layout\Board
 {
+    public function actionRequests()
+    {
+        $this->view->body = V('inventory/requests',[
+        ]);
+    }
+
     public function actionReagents()
     {
         if (!_G('ME')->isAllowedTo('查看存量统计')) {

@@ -1,9 +1,6 @@
-<div class="board-content">
-    <a href="inventory" class="btn btn-primary pull-left">
-        <i class="fa fa-fw fa-reply"></i>
-        <span><?= H(T('返回')) ?></span>
-    </a>
-</div>
+<?=V('inventory/header', [
+    'current'=> 'inventory/reagents'
+])?>
 
 <div class="board-content board-content-reagent" data-require="page/inventory/reagent-list">
 
