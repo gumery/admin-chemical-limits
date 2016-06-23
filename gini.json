@@ -7,7 +7,8 @@
         "locale": "*",
         "chem-db-client": "*",
         "admin-base": "*",
-        "gapper-auth-njust": "*"
+        "gapper-auth-njust": "*",
+        "gini": "*"
     },
     "rurl": {
         "img": "assets/img",
@@ -22,4 +23,3 @@
     },
     "id": "admin-chemical-limits"
 }
-
