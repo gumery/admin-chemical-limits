@@ -13,7 +13,7 @@
             ])) : H(T(':ctime :owner 申请了 :type 上限到 :volume', [
                 ':ctime'=> $vRequest->ctime,
                 ':owner'=> $vRequest->owner->name,
-                ':type'=> $vRequest->type,
+                ':type'=> \Gini\ORM\Inventory\Reagent::$default_cas_nos[$vRequest->type],
                 ':volume'=> $vRequest->volume,
             ]))?></div>
             <div class="col-md-4 text-right app-handler-container" data-id="<?=H($vRequest->id)?>">
