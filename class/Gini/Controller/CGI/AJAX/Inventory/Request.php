@@ -61,6 +61,16 @@ class Request extends \Gini\Controller\CGI
             $request->status = \Gini\ORM\Inventory\Request::STATUS_APPROVED;
             $bool = $request->save();
             if (!$bool) throw new \Exception();
+            $pa = those('inventory/reagent', [
+                'cas_no'=> $request->cas_no ?: $request->type
+            ])->whose('group_id')->is(null)->current();
+            if (!$pa->id) {
+                $pa = a('inventory/reagent');
+                $pa->cas_no = $request->cas_no ?: $request->type;
+                if (!$pa->save()) {
+                    throw new \Exception();
+                }
+            }
             $reagent = a('inventory/reagent', [
                 'cas_no'=> $request->cas_no ?: $request->type,
                 'group'=> $request->group
