@@ -7,10 +7,8 @@ class Reagent extends \Gini\Controller\CGI
     public function actionMore($start = 0)
     {
         $me = _G('ME');
-        if (!$me->id) return;
-
         $group = _G('GROUP');
-        if (!$group->id) return;
+        if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) return;
 
         $params = [];
         $perpage = 15;
@@ -57,10 +55,8 @@ class Reagent extends \Gini\Controller\CGI
     public function actionGetSubs()
     {
         $me = _G('ME');
-        if (!$me->id) return;
-
         $group = _G('GROUP');
-        if (!$group->id) return;
+        if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) return;
 
         $form = $this->form();
         $casNO = trim($form['cas_no']);
@@ -136,6 +132,10 @@ class Reagent extends \Gini\Controller\CGI
 
     public function actionSetConf()
     {
+        $me = _G('ME');
+        $group = _G('GROUP');
+        if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) return;
+
         $form    = $this->form('post');
         $enable  = (int)$form['enable'];
         $setting = a('inventory/setting', ['key'=>'count_cart']);
@@ -280,6 +280,10 @@ class Reagent extends \Gini\Controller\CGI
     }
 
     public function actionGetEditGroupVolume() {
+        $me = _G('ME');
+        $group = _G('GROUP');
+        if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) return;
+
         $form = $this->form('get');
         if (empty($form)) return;
         $type = $form['type'];
@@ -299,16 +303,18 @@ class Reagent extends \Gini\Controller\CGI
 
     public function actionGetReagentAppendChemicalModal() 
     {
+        $me = _G('ME');
+        $group = _G('GROUP');
+        if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) return;
+
         return \Gini\Ioc::construct('\Gini\CGI\Response\HTML', V('inventory/reagent-append-chemical-modal'));
     }
 
     public function actionSearchGroup() 
     {
         $me = _G('ME');
-        if (!$me->id) return;
-
         $group = _G('GROUP');
-        if (!$group->id) return;
+        if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) return;
 
         $form = $this->form('post');
         if (empty($form) || !($q = trim($form['q']))) {
@@ -339,10 +345,8 @@ class Reagent extends \Gini\Controller\CGI
     public function actionSearchChemical()
     {
         $me = _G('ME');
-        if (!$me->id) return;
-
         $group = _G('GROUP');
-        if (!$group->id) return;
+        if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) return;
 
         $form = $this->form();
         if ($keyword = trim($form['q'])) {

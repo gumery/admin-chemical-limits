@@ -11,12 +11,22 @@ class Inventory extends Layout\Board
 
     public function actionRequests()
     {
+        $me = _G('ME');
+        if (!$me->isAllowedTo('设置存量上限')) {
+            $this->redirect('error/401');
+        }
+
         $this->view->body = V('inventory/requests',[
         ]);
     }
 
     public function actionReagents()
     {
+        $me = _G('ME');
+        if (!$me->isAllowedTo('设置存量上限')) {
+            $this->redirect('error/401');
+        }
+
         $rgt_types = \Gini\ORM\Inventory::$rgt_types;
         $default_cas_nos = \Gini\ORM\Inventory\Reagent::$default_cas_nos;
         $defaults = [];
