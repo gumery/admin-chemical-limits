@@ -4,12 +4,12 @@ $vData = [
     'inventory/requests'=> T('调整申请'),
 ];
 ?>
-<div class="board-content">
+<div class="board-header">
+    <ul class="board-header-ul list-unstyled">
     <?php foreach ($vData as $vK=>$vV) {?>
-    <a href="<?=H($vK)?>" class="btn btn-primary pull-left">
-        <span><?= H($vV) ?></span>
-    </a>
+        <li class="<?=$vK===$current ? 'active' : ''?>"><a href="<?=H($vK)?>"><?=H($vV)?></a></li>
     <?php }?>
+    </ul>
 </div>
 
 
