@@ -85,18 +85,17 @@ class Inventory extends \Gini\Controller\API
         $groupID = $criteria['group_id'];
         if (!$groupID) return $result;
         $group = a('group', $groupID);
-        if ($group->id) return $result;
+        if (!$group->id) return $result;
 
-        $result['token'] = md5(J($criteria));
+        $result['token'] = $this->_setCriteria($criteria);
         $result['count'] = those('inventory/request')->whose('group')->is($group)->totalCount();
-        $_SESSION[$token] = $criteria;
 
         return $result;
     }
 
     public function actionGetGroupRequests($token, $start=0, $perpage=25)
     {
-        $criteria = $_SESSION[$token];
+        $criteria = $this->_getCriteria($token);
         $start = max($start, 0);
         $perpage = min(max(0, $perpage), 25);
         $group = a('group', $criteria['group_id']);
@@ -178,4 +177,30 @@ class Inventory extends \Gini\Controller\API
             'mtime'=> $request->mtime,
         ];
     }
+
+    private static $_sessionKey = 'admin-chemical-limits-api';
+    private function _getCriteria($token)
+    {
+        $key = $this->_getSKey($token);
+        return json_decode($_SESSION[$key], true);
+    }
+
+    private function _getSKey($token)
+    {
+        return self::$_sessionKey . '[' . $token . ']';
+    }
+
+    private function _setCriteria($criteria)
+    {
+        if (!is_array($criteria)) {
+            $criteria = [$criteria];
+        }
+        $token = md5(J($criteria));
+        $key = $this->_getSKey($token);
+        if (!isset($_SESSION[$key])) {
+            $_SESSION[$key] = J($criteria);
+        }
+        return $token;
+    }
+
 }
