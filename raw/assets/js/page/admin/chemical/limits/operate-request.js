@@ -4,11 +4,11 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
         var message, text, url;
         if (type == 'approve') {
             message = $content.attr('data-approve-message');
-            text = $content.attr('data-approve-text');
+            text = $content.attr('data-approved-text');
             url = $content.attr('data-approve-url');
         } else {
             message = $content.attr('data-reject-message');
-            text = $content.attr('data-reject-text');
+            text = $content.attr('data-rejected-text');
             url = $content.attr('data-reject-url');
         }
         Bootbox.confirm(message, function(bool) {
