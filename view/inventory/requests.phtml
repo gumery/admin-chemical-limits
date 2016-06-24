@@ -2,7 +2,15 @@
     'current'=> 'inventory/requests'
 ])?>
 <div class="board-content board-content-request">
-    <div class="board-content-request-body">
+    <div class="board-content-request-body app-handler-content"
+        data-approve-message="<?=H(T('您确定通过该申请?'))?>"
+        data-reject-message="<?=H(T('您确定决绝该申请?'))?>"
+        data-approved-text="<?=H(\Gini\ORM\Inventory\Request::getStatusTitle(\Gini\ORM\Inventory\Request::STATUS_APPROVED))?>"
+        data-rejected-text="<?=H(\Gini\ORM\Inventory\Request::getStatusTitle(\Gini\ORM\Inventory\Request::STATUS_REJECTED))?>"
+        data-require="page/admin/chemical/limits/operate-request"
+        data-approve-url='ajax/inventory/request/approve'
+        data-reject-url='ajax/inventory/request/reject'
+        >
         <?=$requests?>
     </div>
 </div>

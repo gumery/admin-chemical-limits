@@ -22,9 +22,9 @@ class Request extends \Gini\ORM\Object
     // 拒绝人
     public $reject_man = 'object:user';
     // 通过时间
-    public $pass_time = 'datetime';
+    public $approve_time = 'datetime';
     // 通过人
-    public $pass_man = 'object:user';
+    public $approve_man = 'object:user';
     // 修改时间
     public $mtime = 'datetime';
 
@@ -37,9 +37,19 @@ class Request extends \Gini\ORM\Object
     // 待审核
     const STATUS_PENDING = 0;
     // 审核通过
-    const STATUS_PASSED = 1;
+    const STATUS_APPROVED = 1;
     // 审核失败
     const STATUS_REJECTED = 2;
+
+    public static function getStatusTitle($status)
+    {
+        $titles = [
+            self::STATUS_PENDING=> T('待审核'),
+            self::STATUS_APPROVED=> T('已通过'),
+            self::STATUS_REJECTED=> T('已拒绝'),
+        ];
+        return $titles[$status];
+    }
 
     public function save($force=false)
     {
