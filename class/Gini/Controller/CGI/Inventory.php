@@ -9,7 +9,7 @@ class Inventory extends Layout\Board
         $this->redirect('inventory/reagents');
     }
 
-    public function actionRequests()
+    public function actionRequests($page=1)
     {
         $me = _G('ME');
         if (!$me->isAllowedTo('设置存量上限')) {
@@ -17,6 +17,7 @@ class Inventory extends Layout\Board
         }
 
         $this->view->body = V('inventory/requests',[
+            'requests'=> \Gini\CGI::request("ajax/inventory/request/more/{$page}", $this->env)->execute()->content()
         ]);
     }
 
