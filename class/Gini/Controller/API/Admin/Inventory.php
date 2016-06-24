@@ -112,7 +112,55 @@ class Inventory extends \Gini\Controller\API
         return $result;
     }
 
-    public static function _prepareRequestData($request)
+    public static function actionAddReuqest(array $data=[])
+    {
+        $cols = [];
+        $cols['type'] = $type = trim($data['type']);
+        $cols['cas_no'] = $casNO = trim($data['cas_no']);
+        $cols['volume'] = $volume = trim($data['volume']);
+        $cols['group_id'] = $groupID = (int)trim($data['group_id']);
+        $cols['owner_id'] = $ownerID = (int)trim($data['owner_id']);
+
+        $user = a('user', $ownerID);
+        if (!$user->id) return false;
+
+        $group = a('group', $groupID);
+        if (!$group->id) return false;
+
+        $allowedTypes = array_keys(\Gini\ORM\Inventory\Reagent::$default_cas_nos);
+        if (!in_array($type, $allowedTypes)) {
+            return false;
+        }
+        
+        $chem = ['default'];
+        if ($casNO) {
+            $chemInfo = \Gini\ChemDB\Client::getChemicalInfo($casNO);
+            if (empty($chemInfo)) return false;
+
+            $cols['name'] = $name = $chemInfo['name'];
+            $types = (array)$chemInfo['types'];
+            if (
+                $type!=\Gini\ORM\Inventory\Reagent::CAS_DEFAULT_ALL
+                &&
+                empty(array_intersect($allowedTypes, $types))
+            ) {
+                return false;
+            }
+
+            $chem = ['cas'=> $casNO, 'state'=>$chemInfo['state'], 'default'];
+        }
+
+        if (!\Gini\Unit\Conversion::of($chem)->validate($volume)) return false;
+
+        $cols['ctime'] = $cols['mtime'] = date('Y-m-d H:i:s');
+
+        $request = a('inventory/request');
+        $request->setData($cols);
+        
+        return !!$request->save();
+    }
+
+    private static function _prepareRequestData($request)
     {
         return [
             'type'=> $request->type,
