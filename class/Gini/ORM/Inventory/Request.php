@@ -41,4 +41,12 @@ class Request extends \Gini\ORM\Object
     // 审核失败
     const STATUS_REJECTED = 2;
 
+    public function save($force=false)
+    {
+        if ($force) {
+            $this->_db_data = [];
+        }
+        return parent::save();
+    }
+
 }
