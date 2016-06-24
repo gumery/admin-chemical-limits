@@ -5,6 +5,7 @@
     "dependencies": {
         "debade": "*",
         "locale": "*",
+        "unit-conv": "*",
         "chem-db-client": "*",
         "admin-base": "*",
         "gapper-auth-njust": "*",
