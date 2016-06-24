@@ -14,7 +14,7 @@ class Request extends \Gini\Controller\CGI
         $page = max(1, $page);
         $start = max(0, $page-1) * $perpage;
 
-        $query = those('inventory/request');
+        $query = those('inventory/request')->orderBy('mtime','desc')->orderBy('ctim', 'desc');
         $count = $query->totalCount();
         $requests = $query->limit($start, $perpage);
 
