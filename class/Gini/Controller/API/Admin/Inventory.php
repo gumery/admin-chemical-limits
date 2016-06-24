@@ -157,7 +157,7 @@ class Inventory extends \Gini\Controller\API
         $request = a('inventory/request');
         $request->setData($cols);
         
-        return !!$request->save();
+        return !!$request->save(true);
     }
 
     private static function _prepareRequestData($request)
