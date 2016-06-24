@@ -112,7 +112,7 @@ class Inventory extends \Gini\Controller\API
         return $result;
     }
 
-    public static function actionAddReuqest(array $data=[])
+    public static function actionAddRequest(array $data=[])
     {
         $cols = [];
         $cols['type'] = $type = trim($data['type']);
