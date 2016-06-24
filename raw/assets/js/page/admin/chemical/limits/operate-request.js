@@ -11,13 +11,16 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
             text = $content.attr('data-reject-text');
             url = $content.attr('data-reject-url');
         }
-        $.post([url, id].join('/'), function(data) {
-            data = data || {};
-            if (data.code) {
-                Bootbox.alert(data.message);
-                return;
-            }
-            $(['.app-handler-container[data-id=', id, ']'].join('')).text(text);
+        Bootbox.confirm(message, function(bool) {
+            if (!bool) return;
+            $.post([url, id].join('/'), function(data) {
+                data = data || {};
+                if (data.code) {
+                    Bootbox.alert(data.message);
+                    return;
+                }
+                $(['.app-handler-container[data-id=', id, ']'].join('')).text(text);
+            });
         });
     }
     $(document).on('click', '.app-handler-approve-request', function(data) {
