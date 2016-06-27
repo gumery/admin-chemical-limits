@@ -21,14 +21,14 @@
                 <div class="board-content-request-li-reason"><?=H($vRequest->reason)?></div>
                 <?php }?>
 
-                <?php if ($vRequest->status == \Gini\ORM\Inventory\Reagent::STATUS_APPROVED) {?>
+                <?php if ($vRequest->status == \Gini\ORM\Inventory\Request::STATUS_APPROVED) {?>
                 <div class="board-content-request-li-op">
-                    <?=H(T(':time 被:op批准', [
+                    <?=H(T(':time 被:op 批准', [
                         ':time'=> $vRequest->approve_time,
                         ':op'=> $vRequest->approve_man->name
                     ]))?>
                 </div>
-                <?php } else if ($vRequest->status == \Gini\ORM\Inventory\Reagent::STATUS_REJECTED) { ?>
+                <?php } else if ($vRequest->status == \Gini\ORM\Inventory\Request::STATUS_REJECTED) { ?>
                 <div class="board-content-request-li-op">
                     <?=H(T(':time 被 :op 拒绝', [
                         ':time'=> $vRequest->reject_time,
