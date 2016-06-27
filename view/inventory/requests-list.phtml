@@ -4,8 +4,16 @@
 </h4>
 <?php } else { ?>
     <?php foreach ($requests as $vRequest) { ?>
-        <div class="board-content-request-li"><div class="row">
-            <div class="col-md-8">
+        <div class="board-content-request-li"><div class="clearfix">
+            <div class="pull-right app-handler-container" data-id="<?=H($vRequest->id)?>">
+                <?php if ($vRequest->status==\Gini\ORM\Inventory\Request::STATUS_PENDING) {?>
+                    <span class="btn btn-primary btn-sm app-handler-approve-request"><?=H(T('通过'))?></span>
+                    <span class="btn btn-default btn-sm app-handler-reject-request"><?=H(T('拒绝'))?></span>
+                <?php } else { ?>
+                    <?=H(\Gini\ORM\Inventory\Request::getStatusTitle($vRequest->status))?>
+                <?php } ?>
+            </div>
+            <div>
                 <div><?=$vRequest->cas_no ? T(':ctime :owner 申请了 :cas 上限到 :volume', [
                     ':ctime'=> "<span class=\"text-muted\">{$vRequest->ctime}</span>",
                     ':owner'=> "<strong>{$vRequest->owner->name}</strong>",
@@ -35,14 +43,6 @@
                         ':op'=> $vRequest->reject_man->name
                     ]))?>
                 </div>
-                <?php } ?>
-            </div>
-            <div class="col-md-4 text-right app-handler-container" data-id="<?=H($vRequest->id)?>">
-                <?php if ($vRequest->status==\Gini\ORM\Inventory\Request::STATUS_PENDING) {?>
-                    <span class="btn btn-primary btn-sm app-handler-approve-request"><?=H(T('通过'))?></span>
-                    <span class="btn btn-default btn-sm app-handler-reject-request"><?=H(T('拒绝'))?></span>
-                <?php } else { ?>
-                    <?=H(\Gini\ORM\Inventory\Request::getStatusTitle($vRequest->status))?>
                 <?php } ?>
             </div>
         </div></div>
