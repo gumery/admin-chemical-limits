@@ -122,7 +122,7 @@ class Inventory extends \Gini\Controller\API
         $cols['volume'] = $volume = trim($data['volume']);
         $cols['group_id'] = $groupID = (int)trim($data['group_id']);
         $cols['owner_id'] = $ownerID = (int)trim($data['owner_id']);
-        $cols['reason'] = $reason = trim($data['reason']);
+        $reason = trim($data['reason']);
 
         if (!$reason) return false;
 
@@ -161,6 +161,7 @@ class Inventory extends \Gini\Controller\API
 
         $request = a('inventory/request');
         $request->setData($cols);
+        $request->reason = $reason;
         
         return !!$request->save(true);
     }
