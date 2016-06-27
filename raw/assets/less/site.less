@@ -238,3 +238,24 @@
         background: #fafafa;
     }
 }
+
+.inventory-type {
+    display: inline-block;
+    color :#fff;
+    border-radius: 3px;
+    line-height: 1em;
+    padding: 3px 5px;
+    font-size: 12px;
+    &-drug {
+        background: @backgroundColorDrugPrecursor;
+    }
+    &-hazar {
+        background: @backgroundColorHazardous;
+    }
+    &-toxic {
+        background: @backgroundColorHighlyToxic;
+    }
+    &-explosive {
+        background: @backgroundColorExplosive;
+    }
+}
