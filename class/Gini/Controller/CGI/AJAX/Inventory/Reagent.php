@@ -257,8 +257,9 @@ class Reagent extends \Gini\Controller\CGI
             }
             $reagent = a('inventory/reagent', ['cas_no'=>$cas, 'group'=> $group]);
         } else {
-            $reagent = those('inventory/reagent', ['cas_no'=>$cas])->whose('group_id')->is(null)->current();
+            $reagent = those('inventory/reagent')->whose('cas_no')->is($cas)->andWhose('group_id')->is(null)->current();
         }
+
         if (!$reagent->id) {
             $reagent = a('inventory/reagent');
             $reagent->cas_no = $cas;
