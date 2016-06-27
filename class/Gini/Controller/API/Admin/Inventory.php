@@ -101,7 +101,10 @@ class Inventory extends \Gini\Controller\API
         $group = a('group', $criteria['group_id']);
         if (!$group->id) return [];
 
-        $requests = those('inventory/request')->whose('group')->is($group)->orderBy('mtime', 'desc')->orderBy('ctime', 'desc')->limit($start, $perpage);
+        $requests = those('inventory/request')->whose('group')->is($group)
+            ->orderBy('status', 'asc')
+            ->orderBy('mtime', 'desc')->orderBy('ctime', 'desc')
+            ->limit($start, $perpage);
 
         $result = [];
         foreach ($requests as $request) {
