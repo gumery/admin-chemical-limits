@@ -6,18 +6,18 @@
     <?php foreach ($requests as $vRequest) { ?>
         <div class="board-content-request-li"><div class="row">
             <div class="col-md-8">
-                <div><?=$vRequest->cas_no ? H(T(':ctime :owner 申请了 :cas 上限到 :volume', [
-                    ':ctime'=> $vRequest->ctime,
-                    ':owner'=> $vRequest->owner->name,
-                    ':cas'=> $vRequest->name ?: $vRequest->cas_no,
-                    ':volume'=> $vRequest->volume,
-                ])) : H(T(':ctime :owner 申请了 :type 上限到 :volume', [
-                    ':ctime'=> $vRequest->ctime,
-                    ':owner'=> $vRequest->owner->name,
-                    ':type'=> \Gini\ORM\Inventory\Reagent::$default_cas_nos[$vRequest->type],
-                    ':volume'=> $vRequest->volume,
-                ]))?></div>
-                <div><?=H($vRequest->reason)?></div>
+                <div><?=$vRequest->cas_no ? T(':ctime :owner 申请了 :cas 上限到 :volume', [
+                    ':ctime'=> "<span class=\"text-muted\">{$vRequest->ctime}</span>",
+                    ':owner'=> "<strong>{$vRequest->owner->name}</strong>",
+                    ':cas'=> "<strong>{$vRequest->name}</strong>",
+                    ':volume'=> "<strong>{$vRequest->volume}</strong>",
+                ]) : T(':ctime :owner 申请了 :type 上限到 :volume', [
+                    ':ctime'=> "<span class=\"text-muted\">{$vRequest->ctime}</span>",
+                    ':owner'=> "<strong>{$vRequest->owner->name}</strong>",
+                    ':type'=> '<strong>' . \Gini\ORM\Inventory\Reagent::$default_cas_nos[$vRequest->type] . '</strong>',
+                    ':volume'=> "<strong>{$vRequest->volume}</strong>",
+                ])?></div>
+                <div class="board-content-request-li-reason"><?=H($vRequest->reason)?></div>
             </div>
             <div class="col-md-4 text-right app-handler-container" data-id="<?=H($vRequest->id)?>">
                 <?php if ($vRequest->status==\Gini\ORM\Inventory\Request::STATUS_PENDING) {?>
