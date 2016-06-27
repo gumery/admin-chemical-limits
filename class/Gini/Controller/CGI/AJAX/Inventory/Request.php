@@ -61,35 +61,48 @@ class Request extends \Gini\Controller\CGI
             $request->status = \Gini\ORM\Inventory\Request::STATUS_APPROVED;
             $bool = $request->save();
             if (!$bool) throw new \Exception();
-            $pa = those('inventory/reagent', [
-                'cas_no'=> $request->cas_no ?: $request->type
-            ])->whose('group_id')->is(null)->current();
+
+            if ($request->cas_no) {
+                $chemicalInfo = \Gini\ChemDB\Client::getChemicalInfo($request->cas_no);
+                if (empty($chemicalInfo)) {
+                    throw new \Exception();
+                }
+            }
+
+            $pa = those('inventory/reagent')->whose('cas_no')->is($request->cas_no ?: $request->type)->andWhose('group_id')->is(null)->current();
             if (!$pa->id) {
                 $pa = a('inventory/reagent');
                 $pa->cas_no = $request->cas_no ?: $request->type;
+                if (!empty($chemicalInfo)) {
+                    $pa->name = $chemicalInfo['name'];
+                    $pa->types = implode(',', $chemicalInfo['types']);
+                    $pa->state = $chemicalInfo['state'];
+                }
                 if (!$pa->save()) {
                     throw new \Exception();
                 }
             }
+
             $reagent = a('inventory/reagent', [
                 'cas_no'=> $request->cas_no ?: $request->type,
                 'group'=> $request->group
             ]);
+
             if (!$reagent->id) {
                 $reagent->group = $request->group;
                 $reagent->cas_no = $request->cas_no ?: $request->type;
             }
-            if ($request->cas_no) {
-                $chemicalInfo = \Gini\ChemDB\Client::getChemicalInfo($request->cas_no);
-            }
+
             if (!empty($chemicalInfo)) {
                 $reagent->name = $chemicalInfo['name'];
                 $reagent->types = implode(',', $chemicalInfo['types']);
                 $reagent->state = $chemicalInfo['state'];
             }
+
             $reagent->volume = $request->volume;
             $bool = $reagent->save();
             if (!$bool) throw new \Exception();
+
             $db->commit();
             return \Gini\IoC::construct('\Gini\CGI\Response\JSON', [
                 'code'=> 0,
