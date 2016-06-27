@@ -29,6 +29,7 @@ class Request extends \Gini\ORM\Object
     public $approve_man = 'object:user';
     // 修改时间
     public $mtime = 'datetime';
+    // public $reason = 'string:*'; // 申请理由
 
     protected static $db_index = [
         'group',

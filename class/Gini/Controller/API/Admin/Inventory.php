@@ -122,6 +122,9 @@ class Inventory extends \Gini\Controller\API
         $cols['volume'] = $volume = trim($data['volume']);
         $cols['group_id'] = $groupID = (int)trim($data['group_id']);
         $cols['owner_id'] = $ownerID = (int)trim($data['owner_id']);
+        $cols['reason'] = $reason = trim($data['reason']);
+
+        if (!$reason) return false;
 
         $user = a('user', $ownerID);
         if (!$user->id) return false;
@@ -173,6 +176,7 @@ class Inventory extends \Gini\Controller\API
             'status'=> $request->status,
             'ctime'=> $request->ctime,
             'owner_id'=> $request->owner->id,
+            'reason'=> $request->reason,
             'reject_time'=> $request->reject_time,
             'reject_man_id'=> $request->reject_man->id,
             'approve_time'=> $request->approve_time,
