@@ -26,6 +26,10 @@ class AdminChemicalLimits
             return true;
         }
 
+        if (self::_userHasPermission($user, 'inventory_admin')) {
+            return true;
+        }
+
         return false;
     }
 }
