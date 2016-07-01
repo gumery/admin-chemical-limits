@@ -377,11 +377,9 @@ class Reagent extends \Gini\Controller\CGI
     private function getGateWayRPC()
     {
         if (self::$gateway_rpc) return self::$gateway_rpc;
-        $node = \Gini\Config::get('app.node');
         $confs = \Gini\Config::get('app.rpc');
 
-        // 为了向下兼容, 读取一下两部分的配置 -_-b ugly hack
-        $gateway = (array) ($confs["{$node}_gateway"] ?: $confs["gateway"]);
+        $gateway = (array) $confs["gateway"];
         $gatewayURL = $gateway['url'];
         $clientID = $gateway['client_id'];
         $clientSecret = $gateway['client_secret'];
