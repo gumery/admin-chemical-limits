@@ -100,15 +100,18 @@ class Inventory extends \Gini\Controller\API
         $perpage = min(max(0, $perpage), 25);
         $group = a('group', $criteria['group_id']);
         if (!$group->id) return [];
-
-        $requests = those('inventory/request')->whose('group')->is($group)
-            ->orderBy('status', 'asc')
-            ->orderBy('mtime', 'desc')->orderBy('ctime', 'desc')
-            ->limit($start, $perpage);
+		
+		$db = \Gini\Database::db();
+        $sql = "SELECT * FROM inventory_request ORDER BY status>0 ASC, ctime DESC limit {$start},{$perpage}";
+        $query = $db->query($sql);
+        $requests = $query ? $query->rows(\PDO::FETCH_ASSOC) : [];
 
         $result = [];
-        foreach ($requests as $request) {
-            $result[] = self::_prepareRequestData($request);
+        if (!empty($requests)) {
+            foreach ($requests as $data) {
+                $request = a('inventory/request')->setData($data);
+                $result[] = self::_prepareRequestData($request);
+            }
         }
 
         return $result;
