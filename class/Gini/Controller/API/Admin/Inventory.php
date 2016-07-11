@@ -24,10 +24,10 @@ class Inventory extends \Gini\Controller\API
             return $reagent->volume;
         }
 
-        $infos = \Gini\ChemDB\Client::getProduct($cas_no);
+        $infos = \Gini\ChemDB\Client::getChemicalInfo($cas_no);
         $types = [];
         if (!empty($infos)) {
-            $types = array_keys($infos);
+            $types = $infos['types'];
         }
         $types[] = 'all';
 
@@ -100,7 +100,7 @@ class Inventory extends \Gini\Controller\API
         $perpage = min(max(0, $perpage), 25);
         $group = a('group', $criteria['group_id']);
         if (!$group->id) return [];
-		
+
 		$db = \Gini\Database::db();
         $sql = "SELECT * FROM inventory_request ORDER BY status>0 ASC, ctime DESC limit {$start},{$perpage}";
         $query = $db->query($sql);
@@ -139,7 +139,7 @@ class Inventory extends \Gini\Controller\API
         if (!in_array($type, $allowedTypes)) {
             return false;
         }
-        
+
         $chem = ['default'];
         if ($casNO) {
             $chemInfo = \Gini\ChemDB\Client::getChemicalInfo($casNO);
@@ -165,7 +165,7 @@ class Inventory extends \Gini\Controller\API
         $request = a('inventory/request');
         $request->setData($cols);
         $request->reason = $reason;
-        
+
         return !!$request->save(true);
     }
 

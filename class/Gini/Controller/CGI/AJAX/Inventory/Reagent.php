@@ -112,20 +112,26 @@ class Reagent extends \Gini\Controller\CGI
         $value = (string)$value;
         // 设置为空，表示不限制购买
         if ($value==='') return true;
+        $criteria = [];
+        $haz_types = ['drug_precursor','highly_toxic','hazardous','explosive'];
         if (!array_key_exists($cas, $default_cas_nos)) {
-            $chem = (array)\Gini\ChemDB\Client::getProduct($cas);
+            $chem = (array)\Gini\ChemDB\Client::getChemicalInfo($cas);
             foreach ($chem as $type => $chem) {
                 //根据优先级（易制毒 > 易制爆 > 剧毒品 > 危化品 ）选择类别
-                if (in_array($type, $chem)) {
+                if (in_array($type, $haz_types)) {
                     $state = $chem['state'];
                     break;
                 }
             }
-            $chem = ['cas' => $cas, 'state' => $state, 'default'];
+            if ($state) {
+                $criteria = ['cas' => $cas, 'state' => $state, 'default'];
+            }
         }
-        else {
+
+        if (!$criteria) {
             $chem = ['default'];
         }
+
         return \Gini\Unit\Conversion::of($chem)->validate($value);
 
     }
@@ -239,7 +245,9 @@ class Reagent extends \Gini\Controller\CGI
 
         if ($cas && !in_array($cas, array_keys(\Gini\ORM\Inventory\Reagent::$default_cas_nos))) {
             $chemicalInfo = \Gini\ChemDB\Client::getChemicalInfo($cas);
-            if (empty($chemicalInfo)) {
+            if (empty($chemicalInfo) ||
+                !count(array_intersect($chemicalInfo['types'], ['drug_precursor','hazardous','highly_toxic','explosive']))
+                ) {
                 return \Gini\IoC::construct('\Gini\CGI\Response\JSON', [
                     'code'=> 4,
                     'message'=> T('设置失败，请您重试')
@@ -294,8 +302,8 @@ class Reagent extends \Gini\Controller\CGI
         /*
             获取所有的课题组名称
          */
-        
-        
+
+
         return \Gini\Ioc::construct('\Gini\CGI\Response\HTML', V('inventory/edit-group-volume',[
                 'type' => $type,
                 'cas_no' => $cas_no,
@@ -303,7 +311,7 @@ class Reagent extends \Gini\Controller\CGI
             ]));
     }
 
-    public function actionGetReagentAppendChemicalModal() 
+    public function actionGetReagentAppendChemicalModal()
     {
         $me = _G('ME');
         $group = _G('GROUP');
@@ -312,7 +320,7 @@ class Reagent extends \Gini\Controller\CGI
         return \Gini\Ioc::construct('\Gini\CGI\Response\HTML', V('inventory/reagent-append-chemical-modal'));
     }
 
-    public function actionSearchGroup() 
+    public function actionSearchGroup()
     {
         $me = _G('ME');
         $group = _G('GROUP');
@@ -339,9 +347,9 @@ class Reagent extends \Gini\Controller\CGI
                 'value'=> $d['name']
             ];
         }
-        
+
         return \Gini\IoC::construct('\Gini\CGI\Response\JSON', $data);
-        
+
     }
 
     public function actionSearchChemical()
@@ -366,7 +374,7 @@ class Reagent extends \Gini\Controller\CGI
                     'value'=> $chem['name']
                 ];
             }
-        } 
+        }
         catch (\Exception $e) {
         }
 
