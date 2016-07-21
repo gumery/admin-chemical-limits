@@ -1,4 +1,0 @@
----
-user.is_allowed_to[设置存量上限]:
-- callback:\Gini\Module\AdminChemicalLimits::commonACL
-...
