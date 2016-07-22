@@ -169,6 +169,16 @@ class Inventory extends \Gini\Controller\API
         return !!$request->save(true);
     }
 
+    public function actionGetHazConf(array $criteria)
+    {
+        $setting    = a('inventory/setting', ['key' => 'count_cart']);
+        $enable      = true;
+        if ($setting->id) {
+            $enable = $setting->enable;
+        }
+        return ['count_cart'=>$enable];
+    }
+
     private static function _prepareRequestData($request)
     {
         return [
