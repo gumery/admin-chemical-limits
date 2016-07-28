@@ -8,7 +8,7 @@ class Inventory extends \Gini\Controller\API
     {
         $volume = null;
         $cas_no = trim($criteria['cas_no']);
-        $group_id = (int) $criteria['group'];
+        $group_id = (int) $criteria['group_id'];
         if (!$cas_no) {
             return $volume;
         }
@@ -23,7 +23,6 @@ class Inventory extends \Gini\Controller\API
         if ($reagent->id && $reagent->volume !== '') {
             return $reagent->volume;
         }
-
         $infos = \Gini\ChemDB\Client::getChemicalInfo($cas_no);
         $types = [];
         if (!empty($infos)) {
@@ -38,17 +37,18 @@ class Inventory extends \Gini\Controller\API
         $types = implode(',', $types);
         $sql = "SELECT id FROM inventory_reagent WHERE cas_no IN ({$types}) AND (group_id IS NULL OR group_id={$group_id})";
         $query = $db->query($sql);
+        $objs = $query->rows();
         $unit = 'g';
         $volumes = [];
         $i = \Gini\Unit\Conversion::of(['cas/'.$cas_no, 'default']);
-        if ($query) foreach ($query->rows() as $obj) {
+        if ($query) foreach ($objs as $obj) {
             $reagent = a('inventory/reagent', $obj->id);
             if (!$reagent->id) continue;
             $volume = (string) $reagent->volume;
             if ($volume === '') {
                 continue;
             }
-            if ($obj->group->id || !isset($volumes[$obj->cas_no])) {
+            if ($reagent->group->id || !isset($volumes[$obj->cas_no])) {
                 $volumes[$obj->cas_no] = $i->from($volume)->to($unit);
             }
         }
