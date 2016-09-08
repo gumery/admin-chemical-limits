@@ -113,7 +113,7 @@ class Reagent extends \Gini\Controller\CGI
         // 设置为空，表示不限制购买
         if ($value==='') return true;
         $criteria = [];
-        $has_types = array_keys(\Gini\ORM\Inventory::$rgt_types);
+        $haz_types = array_keys(\Gini\ORM\Inventory::$rgt_types);
         if (!array_key_exists($cas, $default_cas_nos)) {
             $chem = (array)\Gini\ChemDB\Client::getChemicalInfo($cas);
             foreach ($chem as $type => $chem) {
