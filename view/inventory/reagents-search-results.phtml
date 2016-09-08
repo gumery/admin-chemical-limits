@@ -26,7 +26,15 @@
                     'explosive'=> [
                         'class'=> 'inventory-type inventory-type-explosive',
                         'txt'=> T('易制爆')
-                    ]
+                    ],
+                    'psychotropic'=> [
+                        'class'=> 'inventory-type inventory-type-psychotropic',
+                        'txt'=> T('精神药品')
+                    ],
+                    'narcotic'=> [
+                        'class'=> 'inventory-type inventory-type-narcotic',
+                        'txt'=> T('麻醉药品')
+                    ],
                 ];
                 foreach ($vRTypes as $vRType) {
                     if (!isset($vTCT[$vRType])) {

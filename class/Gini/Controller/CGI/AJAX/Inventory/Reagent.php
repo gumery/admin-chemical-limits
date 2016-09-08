@@ -113,7 +113,7 @@ class Reagent extends \Gini\Controller\CGI
         // 设置为空，表示不限制购买
         if ($value==='') return true;
         $criteria = [];
-        $haz_types = ['drug_precursor','highly_toxic','hazardous','explosive'];
+        $has_types = array_keys(\Gini\ORM\Inventory::$rgt_types);
         if (!array_key_exists($cas, $default_cas_nos)) {
             $chem = (array)\Gini\ChemDB\Client::getChemicalInfo($cas);
             foreach ($chem as $type => $chem) {
@@ -246,7 +246,7 @@ class Reagent extends \Gini\Controller\CGI
         if ($cas && !in_array($cas, array_keys(\Gini\ORM\Inventory\Reagent::$default_cas_nos))) {
             $chemicalInfo = \Gini\ChemDB\Client::getChemicalInfo($cas);
             if (empty($chemicalInfo) ||
-                !count(array_intersect($chemicalInfo['types'], ['drug_precursor','hazardous','highly_toxic','explosive']))
+                !count(array_intersect($chemicalInfo['types'], array_keys(\Gini\ORM\Inventory::$rgt_types)))
                 ) {
                 return \Gini\IoC::construct('\Gini\CGI\Response\JSON', [
                     'code'=> 4,
