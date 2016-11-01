@@ -28,6 +28,7 @@ class Inventory extends \Gini\Controller\API
         if (!empty($infos)) {
             $types = $infos['types'];
         }
+        $types[] = $cas_no;
         $types[] = 'all';
 
         $db = \Gini\Database::db();
