@@ -50,7 +50,7 @@ class Inventory extends \Gini\Controller\API
                 continue;
             }
             if ($reagent->group->id || !isset($volumes[$obj->cas_no])) {
-                $volumes[$obj->cas_no] = $i->from($volume)->to($unit);
+                $volumes[$reagent->cas_no] = $i->from($volume)->to($unit);
             }
         }
         sort($volumes);
