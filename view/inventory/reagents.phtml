@@ -4,10 +4,11 @@
 
 <div class="board-content board-content-reagent" data-require="page/inventory/reagent-list">
 
-    <div class="board-content-reagent-body">
-        <h4><?= H(T('类型存量上限'))?></h4>
+    <div class="board-content-reagent-body" style="padding-top:5px">
+        <h4 ><?= H(T('类型存量上限'))?></h4>
         <p class="text-muted"><?= H(T('这里会根据类型区分设置化学品的存量上限, 如果您不希望对某类别化学品的所有种类进行采购前存量的约束，请勿设置此处'))?></p>
         <p class="text-muted"><?= H(T('* 1瓶≈500ml. 虽然系统支持"瓶"上限设定, 但由于包装差异会引起混淆, 请尽量使用"ml"或"g"用于进行限制'))?></p>
+        <p class="text-muted"><?= H(T('* 设置上限时请输入数字＋单位，例5mg（目前系统支持单位: 瓶/bottle/ml/g/cm3/ul/μl/ml/cl/dl/l/gal/lb/ug/μg/mg/kg/oz/lb/）'))?></p>
         <table class="table table-condensed table-gini" style="margin-bottom:0">
             <thead>
                 <tr>
