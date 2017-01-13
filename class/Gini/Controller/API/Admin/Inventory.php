@@ -103,7 +103,7 @@ class Inventory extends \Gini\Controller\API
         if (!$group->id) return [];
 
 		$db = \Gini\Database::db();
-        $sql = "SELECT * FROM inventory_request ORDER BY status>0 ASC, ctime DESC limit {$start},{$perpage}";
+        $sql = "SELECT * FROM inventory_request WHERE group_id={$group->id} ORDER BY status>0 ASC, ctime DESC limit {$start},{$perpage}";
         $query = $db->query($sql);
         $requests = $query ? $query->rows(\PDO::FETCH_ASSOC) : [];
 
