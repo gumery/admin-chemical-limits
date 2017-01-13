@@ -31,16 +31,18 @@
 
                 <?php if ($vRequest->status == \Gini\ORM\Inventory\Request::STATUS_APPROVED) {?>
                 <div class="board-content-request-li-op">
-                    <?=H(T(':time 被 :op 批准', [
+                    <?=H(T(':time 被 :op 批准: :note', [
                         ':time'=> $vRequest->approve_time,
-                        ':op'=> $vRequest->approve_man->name
+                        ':op'=> $vRequest->approve_man->name,
+                        ':note'=> $vRequest->approve_note ?: '--'
                     ]))?>
                 </div>
                 <?php } else if ($vRequest->status == \Gini\ORM\Inventory\Request::STATUS_REJECTED) { ?>
                 <div class="board-content-request-li-op">
-                    <?=H(T(':time 被 :op 拒绝', [
+                    <?=H(T(':time 被 :op 拒绝: :note', [
                         ':time'=> $vRequest->reject_time,
-                        ':op'=> $vRequest->reject_man->name
+                        ':op'=> $vRequest->reject_man->name,
+                        ':note'=> $vRequest->reject_note ?: '--'
                     ]))?>
                 </div>
                 <?php } ?>

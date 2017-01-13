@@ -1,0 +1,20 @@
+<div class="modal fade">
+    <div class="modal-dialog" style="width:400px;">
+        <form class="form-op-volume-request">
+            <div class="modal-content" style="border-radius:0;">
+                <div class="modal-header">
+                    <h4 class="modal-title text-primary"><?=H($title)?></h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="type" value="<?=H($type)?>" />
+                    <input type="hidden" name="id" value="<?=H($request->id)?>" />
+                    <textarea name="note" placeholder="<?=H(T('请填写备注信息'))?>" class="form-control" style="resize:vertical;" rows="5"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary"><?=H(T('提交'))?></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?=H(T('取消'))?></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
