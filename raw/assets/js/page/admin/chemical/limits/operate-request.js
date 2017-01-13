@@ -3,11 +3,7 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
     var $modalLoading;
     function showLoading() {
         if ($modalLoading) {
-            $modalLoading.modal({
-                'backdrop': 'static',
-                'show': true
-            });
-            return;
+            $modalLoading.remove();
         }
         var loading = [
             '<div class="modal"><div class="modal-dialog" style="width:400px;"><div class="modal-content"><div class="modal-body">',
@@ -17,7 +13,10 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
             '</div></div></div></div>'
         ].join('\n');
         $modalLoading = $(loading);
-        showLoading();
+        $modalLoading.modal({
+            'backdrop': 'static',
+            'show': true
+        });
     }
 
     function hideLoading() {
