@@ -10,11 +10,11 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
             return;
         }
         var loading = [
-            '<div class="modal"><div class="modal-content"><div class="modal-body">',
+            '<div class="modal"><div class="modal-dialot" style="width:400px;"><div class="modal-content"><div class="modal-body">',
                 '<div class="text-center">', 
                     '<i class="fa fa-2x fa-spinner fa-spin"/>', 
                 '</div>',
-            '</div></div></div>'
+            '</div></div></div></div>'
         ].join('\n');
         $modalLoading = $(loading);
         showLoading();
@@ -41,7 +41,7 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
         });
     }
 
-    $(document).on('submit', '.form-op-volume-request', function() {
+    $(document).on('submit', 'form.form-op-volume-request', function() {
         var $form = $(this);
         var url = 'ajax/inventory/request/post-op-request';
         showLoading();
@@ -56,6 +56,7 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
                 $(['.app-handler-container[data-id=', response.id, ']'].join('')).text(response.text);
             }
         });
+        return false;
     });
 
     $(document).on('click', '.app-handler-approve-request', function(data) {
