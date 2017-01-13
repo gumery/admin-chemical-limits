@@ -10,7 +10,7 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
             return;
         }
         var loading = [
-            '<div class="modal"><div class="modal-dialot" style="width:400px;"><div class="modal-content"><div class="modal-body">',
+            '<div class="modal"><div class="modal-dialog" style="width:400px;"><div class="modal-content"><div class="modal-body">',
                 '<div class="text-center">', 
                     '<i class="fa fa-2x fa-spinner fa-spin"/>', 
                 '</div>',
