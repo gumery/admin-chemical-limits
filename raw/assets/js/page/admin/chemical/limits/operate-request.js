@@ -26,6 +26,7 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
         }
     }
 
+    var $opModal;
     function op(type, id) {
         showLoading();
         var url = 'ajax/inventory/request/get-op-dialog';
@@ -34,7 +35,8 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
             'id': id
         }, function (result) {
             hideLoading();
-            $(result).modal({
+            $opModal = $(result);
+            $opModal.modal({
                 'backdrop': 'static',
                 'show': true
             });
@@ -54,6 +56,7 @@ define('page/admin/chemical/limits/operate-request', ['jquery', 'bootbox'], func
             }
             if (response.id) {
                 $(['.app-handler-container[data-id=', response.id, ']'].join('')).text(response.text);
+                $opModal && $opModal.length && $opModal.modal('hide');
             }
         });
         return false;
