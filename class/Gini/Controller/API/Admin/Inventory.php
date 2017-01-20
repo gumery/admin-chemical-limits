@@ -194,8 +194,10 @@ class Inventory extends \Gini\Controller\API
             'reason'=> $request->reason,
             'reject_time'=> $request->reject_time,
             'reject_man_id'=> $request->reject_man->id,
+            'reject_note'=> $request->reject_note,
             'approve_time'=> $request->approve_time,
             'approve_man_id'=> $request->approve_man->id,
+            'approve_note'=> $request->approve_note,
             'mtime'=> $request->mtime,
         ];
     }
