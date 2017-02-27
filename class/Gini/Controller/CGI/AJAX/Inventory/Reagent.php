@@ -335,7 +335,7 @@ class Reagent extends \Gini\Controller\CGI
             'keyword'=> $q
         ];
 
-        $result = self::getGateWayRPC()->gateway->organization->getLabs($criteria);
+        $result = \Gini\Module\AppBase::getGateWayRPC()->gateway->organization->getLabs($criteria);
         if (empty($result)) {
             return \Gini\IoC::construct('\Gini\CGI\Response\JSON', []);
         }
@@ -379,25 +379,6 @@ class Reagent extends \Gini\Controller\CGI
         }
 
         return \Gini\IoC::construct('\Gini\CGI\Response\JSON', $data);
-    }
-
-    private static $gateway_rpc;
-    private function getGateWayRPC()
-    {
-        if (self::$gateway_rpc) return self::$gateway_rpc;
-        $confs = \Gini\Config::get('app.rpc');
-
-        $gateway = (array) $confs["gateway"];
-        $gatewayURL = $gateway['url'];
-        $clientID = $gateway['client_id'];
-        $clientSecret = $gateway['client_secret'];
-
-        $rpc = \Gini\IoC::construct('\Gini\RPC',$gatewayURL);
-        if (!$rpc->gateway->authorize($clientID, $clientSecret)) {
-            return;
-        }
-        self::$gateway_rpc = $rpc;
-        return $rpc;
     }
 
 }
