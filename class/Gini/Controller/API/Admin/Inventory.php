@@ -2,7 +2,7 @@
 
 namespace Gini\Controller\API\Admin;
 
-class Inventory extends \Gini\Controller\API
+class Inventory extends \Gini\Controller\API\Base
 {
     public function actionGetLimit(array $criteria = [])
     {
