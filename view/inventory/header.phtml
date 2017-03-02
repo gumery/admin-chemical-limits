@@ -6,7 +6,7 @@ $me = _G('ME');
         <li class="<?='reagents'===$current ? 'active' : ''?>"><a href="inventory/reagents"><?=H(T('上限设置'))?></a></li>
         <li class="<?='requests'===$current ? 'active' : ''?>"><a href="inventory/requests"><?=H(T('调整申请'))?></a></li>
         <li class="<?='approved'===$current ? 'active' : ''?>"><a href="inventory/approved"><?=H(T('历史申请'))?></a></li>
-        <?php if (\Gini\Config::get('chemical.requests_need_approve') && \Gini\Config::get('chemical.requests_need_approve') !== '${CHEMICAL_REQUESTS_NEED_APPROVE}') { ?>
+        <?php if (\Gini\Config::get('chemical.requests_need_approve') && \Gini\Config::get('chemical.requests_need_approve') !== '${REQUESTS_NEED_APPROVE}') { ?>
             <?php if ($current === 'setting'){ ?>
                 <li class="<?='setting'===$current ? 'active' : ''?>"><a href="manager/setting"><?=H(T('设置分组'))?></a></li>
             <?php }?>
