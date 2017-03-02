@@ -114,7 +114,7 @@ class Request extends \Gini\Controller\CGI
 
         //如果需要审批 显示 各自组的 instance,如果不需要审批，显示所有 instance
         $conf = \Gini\config::get('chemical.requests_need_approve');
-        if ($conf && $conf !== '${REQUESTS_NEED_APPROVE}') {
+        if ($conf && $conf !== '${CHEMICAL_REQUESTS_NEED_APPROVE}') {
             $instances = $process->getInstances($start, $limit, $user);
         } else {
             $instances = $process->getInstances($start, $limit);
@@ -156,7 +156,7 @@ class Request extends \Gini\Controller\CGI
 
         //如果需要审批 显示 各自组的 需要审批的 task,如果不需要审批，显示所有 task
         $conf = \Gini\config::get('chemical.requests_need_approve');
-        if ($conf && $conf !== '${REQUESTS_NEED_APPROVE}') {
+        if ($conf && $conf !== '${CHEMICAL_REQUESTS_NEED_APPROVE}') {
             $tasks = $engine->those('task')
                 ->whose('process')->is($process)
                 ->whose('candidate_group')->isIn($process->getGroups($me))
