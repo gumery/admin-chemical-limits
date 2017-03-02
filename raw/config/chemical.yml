@@ -1,0 +1,5 @@
+---
+# 存量上线申请 是否需要多级审批
+# default: false 不需要多寄审批
+requests_need_approve: ${REQUESTS_NEED_APPROVE}
+...

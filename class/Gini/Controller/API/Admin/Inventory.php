@@ -126,7 +126,7 @@ class Inventory extends \Gini\Controller\API\Base
         $cols['volume'] = $volume = trim($data['volume']);
         $cols['group_id'] = $groupID = (int)trim($data['group_id']);
         $cols['owner_id'] = $ownerID = (int)trim($data['owner_id']);
-        $reason = trim($data['reason']);
+        $cols['reason'] = $reason = trim($data['reason']);
 
         if (!$reason) return false;
 
@@ -167,7 +167,53 @@ class Inventory extends \Gini\Controller\API\Base
         $request->setData($cols);
         $request->reason = $reason;
 
-        return !!$request->save(true);
+        if ($request->save(true)) {
+            $id = $request->id;
+            $processName = \Gini\Config::get('app.chemical_approve_process');
+            $engine = \Gini\Process\Engine::of('default');
+            $instanceID = self::_getChemicalInstanceID($processName, $id);
+
+            $cols['request_id'] = $id;
+            $cacheData['data'] = $cols;
+            if ($instanceID) {
+                $instance = $engine->fetchProcessInstance($processName, $instanceID);
+                if (!$instance->id || $instance->status==\Gini\Process\IInstance::STATUS_END) {
+                    $instance = $engine->startProcessInstance($processName, $cacheData, "chemical#{$id}");
+                }
+            } else {
+                $instance = $engine->startProcessInstance($processName, $cacheData, "chemical#{$id}");
+            }
+
+            if ($instance->id && $instance->id!=$instanceID) {
+                self::_setChemicalInstanceID($processName, $id, $instance->id);
+                $request->instanceID = $instance->id;
+                if (!$request->save(true)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private static function _getChemicalInstanceID($processName, $id)
+    {
+        $key = "chemical#{$id}";
+        $info = (array)\Gini\TagDB\Client::of('default')->get($key);
+        //$info = [ 'bpm'=> [ $processName=> [ 'instances'=> [ $instanceID, $latestinstanceid ] ] ] ]
+        $info = (array)@$info['bpm'][$processName]['instances'];
+        return array_pop($info);
+    }
+
+    private static function _setChemicalInstanceID($processName, $id, $instanceID)
+    {
+        $key = "chemical#{$id}";
+        $info = (array)\Gini\TagDB\Client::of('default')->get($key);
+        $info['bpm'][$processName]['instances'] = @$info['bpm'][$processName]['instances'] ?: [];
+        array_push($info['bpm'][$processName]['instances'], $instanceID);
+        \Gini\TagDB\Client::of('default')->set($key, $info);
     }
 
     public function actionGetHazConf(array $criteria)
@@ -182,6 +228,30 @@ class Inventory extends \Gini\Controller\API\Base
 
     private static function _prepareRequestData($request)
     {
+        $processName = \Gini\Config::get('app.chemical_approve_process');
+        $engine = \Gini\Process\Engine::of('default');
+        $instance = $engine->fetchProcessInstance($processName, $request->instanceID);
+        if (!$instance || !$instance->id) return;
+
+        $tasks = $engine->those('task')
+            ->whose('instance')->is($instance)
+            ->whose('status')->isIn([
+                \Gini\Process\ITask::STATUS_APPROVED,
+                \Gini\Process\ITask::STATUS_UNAPPROVED,
+            ])
+            ->orderBy('ctime', 'desc');
+        $data = [];
+        foreach ($tasks as $task) {
+            $logs[$task->id] = [
+                'status' => $task->status,
+                'message' => $task->message,
+                'group' => $task->group ? $task->group . ' ' : '',
+                'user' => $task->user ? $task->user. ' ' : '',
+                'date' => $task->date?:$task->auto_approve_date?:$task->auto_reject_date,
+            ];
+        }
+        ksort($logs);
+
         return [
             'type'=> $request->type,
             'cas_no'=> $request->cas_no,
@@ -199,6 +269,7 @@ class Inventory extends \Gini\Controller\API\Base
             'approve_man_id'=> $request->approve_man->id,
             'approve_note'=> $request->approve_note,
             'mtime'=> $request->mtime,
+            'logs'=> $logs,
         ];
     }
 

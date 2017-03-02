@@ -1,0 +1,59 @@
+<div class="request-task-page" data-require="page/manager/request">
+    <table class="table table-striped">
+        <thead class="board-content-header" style="padding:0 20px;">
+            <tr>
+                <th class="text-center text-middle nowrap"><?=H(T('时间'))?></th>
+                <th class="text-center text-middle nowrap"><?=H(T('申请人'))?></th>
+                <th class="text-center text-middle nowrap"><?=H(T('课题组'))?></th>
+                <th class="text-center text-middle"><?=H(T('商品名称/种类'))?></th>
+                <th class="text-center text-middle nowrap"><?=H(T('原有上限'))?></th>
+                <th class="text-center text-middle nowrap"><?=H(T('申请上限'))?></th>
+                <th class="text-center text-middle"><?=H(T('申请理由'))?></th>
+                <th class="text-center text-middle nowrap"><?=H(T('状态'))?></th>
+                <th class="text-center text-middle nowrap"></th>
+            </tr>
+        </thead>
+        <tbody class="board-content-body">
+            <?php if (count($requests)) foreach ($requests as $vID=>$request) { ?>
+                <?php $owner = a('user', $request['owner_id']); ?>
+                <?php $group = a('group', $request['group_id']);?>
+                <tr>
+                    <td class="text-center text-middle nowrap"><?=H($request['ctime'])?></td>
+                    <td class="text-center text-middle nowrap"><?=H($request['owner']->name)?></td>
+                    <td class="text-center text-middle nowrap"><?=H($request['group']->title)?></td>
+                    <td class="text-center text-middle">
+                        <?=H($request['name'])?>
+                        <span class="haz-type haz-type-<?= H($request['type'])?>"><?=H($hazTypes[$request['type']])?></span>
+                    </td>
+                    <td class="text-center text-middle nowrap"><?=H($request['regent']?:'--')?></td>
+                    <td class="text-center text-middle nowrap"><?=H($request['volume'])?></td>
+                    <td class="text-center text-middle"><?=H($request['reason'])?></td>
+                    <td class="text-center text-middle nowrap"><span class="btn btn-info btn-xs status" data-placement="left" data-preview="instance" data-href="ajax/inventory/request/preview/<?=H($request['instance']->id)?>"><?=H($request['task_status'])?></span></td>
+                    <td class="text-center text-middle nowrap">
+                        <span class="app-op-per-handler btn btn-link" data-id="<?=H($vID)?>" data-key="approve"><?=H(T('通过'))?></span>
+                            <span class="app-op-per-handler btn btn-link" data-id="<?=H($vID)?>" data-key="reject"><?=H(T('拒绝'))?></span>
+                    </td>
+                </tr>
+            <?php }?>
+        </tbody>
+    </table>
+</div>
+
+<ul class="list-unstyled text-center">
+<?php
+    $vPFrom = (ceil($page/10) - 1) * 10 + 1;
+    $vPTo = min(ceil($page/10) * 10 +1, $total);
+    if ($vPT - $vPFrom < 11) {
+        $vPFrom = max(1, $vPTo - 11);
+    }
+?>
+<?php if ($vPFrom!=1) {?>
+    <li data-page="1" data-type="<?=H($type)?>" class="app-pager-li-handler<?=($page==1) ? ' app-pager-li-active' : ''?>"><?=H(T('首页'))?></li>
+<?php }?>
+<?php for ($i=$vPFrom; $i<=$vPTo; $i++) {?>
+    <li data-page="<?=H($i)?>" data-type="<?=H($type)?>" class="app-pager-li-handler<?=($page==$i) ? ' app-pager-li-active' : ''?>"><?=H($i)?></li>
+<?php }?>
+<?php if ($vPTo!=$total) {?>
+    <li data-page="<?=H($total)?>" data-type="<?=H($type)?>" class="app-pager-li-handler<?=($page==$total) ? ' app-pager-li-active' : ''?>"><?=H(T('尾页'))?></li>
+<?php }?>
+</ul>

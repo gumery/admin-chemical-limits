@@ -1,0 +1,23 @@
+<div class="preview-content">
+<?php if (!count($tasks)) { ?>
+    <div class="row"><div class="col-xs-12">
+        <?=H(T('暂无审核历史'))?>
+    </div></div>
+<?php } else { ?>
+<div class="status-line">
+    <dl class="status-line-content list-unstyled">
+        <dt><?=H(T('跟踪信息'))?></dt>
+    <?php foreach ($tasks as $task) { ?>
+        <dd class="status-line-content-li">
+            <div title="<?=H($task->message)?>"><?=H($task->message)?></div>
+            <div><?=H(T(':group:user:date', [
+                ':group'=> $task->group ? $task->group . ' ' : '',
+                ':user'=> $task->user ? $task->user. ' ' : '',
+                ':date'=> $task->date?:$task->auto_approve_date?:$task->auto_reject_date
+            ]))?></div>
+        </dd>
+    <?php }?>
+    </dl>
+</div>
+<?php } ?>
+</div>

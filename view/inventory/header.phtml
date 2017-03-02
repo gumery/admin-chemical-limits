@@ -1,15 +1,27 @@
 <?php
-$vData = [
-    'inventory/reagents'=> T('上限设置'),
-    'inventory/requests'=> T('调整申请'),
-];
+$me = _G('ME');
 ?>
 <div class="board-header">
     <ul class="board-header-ul list-unstyled">
-    <?php foreach ($vData as $vK=>$vV) {?>
-        <li class="<?=$vK===$current ? 'active' : ''?>"><a href="<?=H($vK)?>"><?=H($vV)?></a></li>
-    <?php }?>
+        <li class="<?='reagents'===$current ? 'active' : ''?>"><a href="inventory/reagents"><?=H(T('上限设置'))?></a></li>
+        <li class="<?='requests'===$current ? 'active' : ''?>"><a href="inventory/requests"><?=H(T('调整申请'))?></a></li>
+        <li class="<?='approved'===$current ? 'active' : ''?>"><a href="inventory/approved"><?=H(T('历史申请'))?></a></li>
+        <?php if (\Gini\Config::get('chemical.requests_need_approve') && \Gini\Config::get('chemical.requests_need_approve') !== '${CHEMICAL_REQUESTS_NEED_APPROVE}') { ?>
+            <?php if ($current === 'setting'){ ?>
+                <li class="<?='setting'===$current ? 'active' : ''?>"><a href="manager/setting"><?=H(T('设置分组'))?></a></li>
+            <?php }?>
+            <?php if ($me->isAllowedTo('设置存量上限')) { ?>
+                <div class="pull-right" style="margin-top:13px;">
+                    <div class="dropdown" style="margin-left:40px;margin-right:20px;">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <i class="fa fa-cog" style="margin-right:10px;"></i><span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                            <li class="text-center" style="cursor:pointer;height:30px;border-bottom:none;"><a style="display:block;height:30px;line-height:30px;" href="manager/setting"><?= H(T('设置分组')) ?></a></li>
+                        </ul>
+                    </div>
+                </div>
+            <?php }?>
+        <?php }?>
     </ul>
 </div>
-
-

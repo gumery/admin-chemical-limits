@@ -8,6 +8,7 @@
         "unit-conv": "*",
         "chem-db-client": "*",
         "admin-base": "*",
+        "tag-db-client": "*",
         "gini": "*"
     },
     "rurl": {

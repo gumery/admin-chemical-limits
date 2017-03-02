@@ -83,6 +83,37 @@
             }
         }
     }
+    .haz-type {
+
+        display: inline-block;
+        color :#fff;
+        border-radius: 3px;
+        line-height: 1em;
+        padding: 3px 5px;
+        font-size: 12px;
+
+        &-hazardous {
+            background: #990000;
+        }
+        &-drug_precursor {
+            background: #333333;
+        }
+        &-highly_toxic {
+            background: #66AAAA;
+        }
+        &-explosive {
+            background: #ff6000;
+        }
+        &-psychotropic {
+            background: #990000;
+        }
+        &-narcotic {
+            background: #990000;
+        }
+    }
+    .status {
+        font-size: 10px;
+    }
 }
 
 .board-info {
@@ -269,5 +300,208 @@
     }
     &-narcotic{
         background: @backgroundColorNarcotic;
+    }
+}
+
+.manager-setting-page {
+    @permission-card-bg: #f9f9f9;
+    @permission-card-border: #ddd;
+
+    .permission-card {
+
+        background: @permission-card-bg;
+        border-bottom: 3px solid @permission-card-border;
+        margin-bottom: 15px;
+
+        .permission-card-group-edit-handler, .permission-card-group-remove-handler {
+            cursor: pointer;
+            color: @permission-card-border;
+            &:hover {
+                color: @linkColor;
+            }
+        }
+
+        .permission-card-header {
+            position: relative;
+            padding: 10px 15px;
+            border-bottom: 1px solid @permission-card-border;
+
+            .permission-card-title {
+                margin: 0 0 5px;
+            }
+
+            .permission-card-description {
+                margin: 0;
+                font-size: 90%;
+                color: @text-muted;
+            }
+
+        }
+
+        .permission-card-body {
+            min-height: 40px;
+            padding: 10px 15px;
+            width: 100%;
+
+            dd {
+                float: left;
+                margin-right: 3px;
+            }
+
+            &.drag-hover {
+                background-color: darken(@permission-card-bg, 5%);
+            }
+        }
+
+
+        .permission-user  {
+            display: inline-block;
+            padding: 0 5px;
+            border-radius: 2px;
+
+            background-color: @label-primary-bg;
+            color: #fff;
+
+            margin-bottom:3px;
+            cursor: default;
+
+            .delete-member {
+                cursor: pointer;
+            }
+        }
+
+    }
+
+    .permission-cards {
+        padding: 15px;
+    }
+
+    .permission-card-group-add-handler {
+        cursor:pointer;
+        background-color:#f9f9f9;
+        text-align:center;
+        height:102px;
+        line-height:102px;
+        overflow:hidden;
+        padding:0;
+        margin:0;
+    }
+
+    .access-members {
+        top: -20;
+        bottom: 0;
+        height: 100%;
+        border-left: 1px solid #ccc;
+        min-height: 440px;
+        background: #F1F2F6;
+    }
+
+    .app-add-member-handler{
+        cursor:pointer;
+    }
+    .user-icon {
+        display: inline-block;
+        z-index: 50;
+        text-decoration: none;
+        width: 80px;
+        margin-bottom: 10px;
+
+        .user-icon-image {
+            width: 64px;
+            height: 64px;
+            max-width: 100%;
+            margin:0 auto 5px;
+
+            img {
+                background-color: #fff;
+                display:block;
+                width: 64px;
+                height: 64px;
+                border-radius:50%;
+                border: 2px solid #fff;
+            }
+
+            .user-icon-text {
+                color: #fff;
+                background-color: #666;
+                width: 64px;
+                height: 64px;
+                line-height: 64px;
+                font-weight: @bold;
+                border-radius:50%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-align: center;
+                border: 2px solid #fff;
+                &-add {
+                    line-height:55px;
+                    &-handler{
+                        font-size:40px;
+                        color:#eb5767;
+                    }
+                }
+            }
+        }
+        .user-name {
+            color: #000;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .user-group {
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+    }
+}
+
+.status-line {
+    padding-left: 20px;
+    position: relative;
+    &-content {
+        border-left: 2px solid #999;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 0;
+        margin-bottom: 0;
+        dt {
+            line-height: 30px;
+        }
+        &-li {
+            font-size: 12px;
+            color: #999;
+            line-height: 22px;
+            &:before {
+                content: ' ';
+                display: inline-block;
+                background: #999;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                position: absolute;
+                left: 17px;
+                margin-top: 6px;
+            }
+            &-0 {
+                &:before {
+                    background: #d55;
+                }
+            }
+            b {
+                color: #000;
+                font-weight: @bold;
+                margin-left: 10px;
+            }
+
+            .track-content {
+                p {
+                    display: inline;
+                }
+            }
+        }
     }
 }

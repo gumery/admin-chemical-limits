@@ -1,0 +1,17 @@
+<div class="permission-card" data-permission="<?= H($group->name) ?>">
+    <div class="permission-card-header">
+        <div class="pull-right">
+            <span class="fa fa-pencil-square-o permission-card-group-edit-handler" style="cursor:pointer;"></span>
+            <span class="fa fa-trash permission-card-group-remove-handler" style="cursor:pointer;"></span>
+        </div>
+        <h5 class="permission-card-title">
+            <?= H($group->title) ?>
+        </h5>
+        <p class="permission-card-description">
+            <?= H($group->description)?>
+        </p>
+    </div>
+    <div class="permission-card-body clearfix">
+        <?= V('inventory/manager/permission-card-members', [ 'members' => $group->getUsers() ]) ?>
+    </div>
+</div>

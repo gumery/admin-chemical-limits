@@ -1,5 +1,5 @@
 <?=V('inventory/header', [
-    'current'=> 'inventory/reagents'
+    'current'=> 'reagents'
 ])?>
 
 <div class="board-content board-content-reagent" data-require="page/inventory/reagent-list">
@@ -35,7 +35,7 @@
             </thead>
             <tbody>
             <?php
-            foreach($default_cas_infos as $cas => $default) { 
+            foreach($default_cas_infos as $cas => $default) {
             ?>
             <tr>
                 <td class="text-nowrap" colspan="2"><?= H($default['name']) ?></td>

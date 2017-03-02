@@ -8,7 +8,7 @@ class Reagent extends \Gini\Controller\CGI
     {
         $me = _G('ME');
         $group = _G('GROUP');
-        if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) return;
+        if (!$me->id || !$group->id) return;
 
         $params = [];
         $perpage = 15;
@@ -159,7 +159,7 @@ class Reagent extends \Gini\Controller\CGI
         if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) {
             return \Gini\IoC::construct('\Gini\CGI\Response\JSON', [
                 'code'=> 1,
-                'message'=> T('请您重新登录')
+                'message'=> T('您无权进行该操作')
             ]);
         }
 
@@ -219,7 +219,7 @@ class Reagent extends \Gini\Controller\CGI
         if (!$me->id || !$group->id || !$me->isAllowedTo('设置存量上限')) {
             return \Gini\IoC::construct('\Gini\CGI\Response\JSON', [
                 'code'=> 1,
-                'message'=> T('请您重新登录')
+                'message'=> T('您无权进行该操作')
             ]);
         }
 

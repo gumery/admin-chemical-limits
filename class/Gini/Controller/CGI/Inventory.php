@@ -6,25 +6,42 @@ class Inventory extends Layout\Board
 {
     public function __index()
     {
+        $me = _G('ME');
+        if (!($me->isAllowedTo('设置存量上限') || $me->isAllowedTo('审核上限申请'))) {
+            $this->redirect('error/401');
+        }
+
         $this->redirect('inventory/reagents');
     }
 
     public function actionRequests($page=1)
     {
         $me = _G('ME');
-        if (!$me->isAllowedTo('设置存量上限')) {
+        if (!($me->isAllowedTo('设置存量上限') || $me->isAllowedTo('审核上限申请'))) {
             $this->redirect('error/401');
         }
 
         $this->view->body = V('inventory/requests',[
-            'requests'=> \Gini\CGI::request("ajax/inventory/request/more/{$page}", $this->env)->execute()->content()
+            'requests'=> \Gini\CGI::request("ajax/inventory/request/more/{$page}/requests", $this->env)->execute()->content()
+        ]);
+    }
+
+    public function actionApproved($page=1)
+    {
+        $me = _G('ME');
+        if (!($me->isAllowedTo('设置存量上限') || $me->isAllowedTo('审核上限申请'))) {
+            $this->redirect('error/401');
+        }
+
+        $this->view->body = V('inventory/approved',[
+            'instances'=> \Gini\CGI::request("ajax/inventory/request/more/{$page}/approved", $this->env)->execute()->content()
         ]);
     }
 
     public function actionReagents()
     {
         $me = _G('ME');
-        if (!$me->isAllowedTo('设置存量上限')) {
+        if (!($me->isAllowedTo('设置存量上限') || $me->isAllowedTo('审核上限申请'))) {
             $this->redirect('error/401');
         }
 
@@ -40,7 +57,7 @@ class Inventory extends Layout\Board
                 'volume'=> $reagent->volume,
                 'subs'=>$subreagent,
             ];
-            
+
         }
 
         $enable = true;
@@ -55,5 +72,4 @@ class Inventory extends Layout\Board
             'count_cart'=> $enable,
         ]);
     }
-
 }
