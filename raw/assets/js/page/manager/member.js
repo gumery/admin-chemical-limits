@@ -52,7 +52,6 @@ define('page/manager/member', ['jquery', 'bootbox', 'board', 'more', 'url', 'uti
             backdrop: 'static'
         });
     }
-
     $('body').on('submit', 'form.form-permission-card-group-edit', function() {
         var $myDialog = $(this).parents('.modal');
         var url = 'ajax/inventory/manager/submit-group';
@@ -70,6 +69,7 @@ define('page/manager/member', ['jquery', 'bootbox', 'board', 'more', 'url', 'uti
                 }
             }
         });
+        return false;
     });
 
     $('body').on('click', '.permission-card-group-remove-handler', function(){
