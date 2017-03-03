@@ -42,11 +42,33 @@ define('page/manager/member', ['jquery', 'bootbox', 'board', 'more', 'url', 'uti
         });
     });
 
-    $('body').on('click', '.permission-card-group-post-handler', function(){
-        $form = $(this).parents('.modal').find('form');
-        $.post('ajax/inventory/manager/submit-group', $form.serialize(), function(data){
-            var $myDialog = $form.parents('.modal');
-            $myDialog.remove();
+    var $groupFormModal;
+    function hideGroupFormModal($modal)
+    {
+        $groupFormModal && $groupFormModal.hide();
+        $groupFormModal = $modal;
+        $groupFormModal.modal({
+            show: true,
+            backdrop: 'static'
+        });
+    }
+
+    $('body').on('submit', 'form.form-permission-card-group-edit', function() {
+        var $myDialog = $(this).parents('.modal');
+        var url = 'ajax/inventory/manager/submit-group';
+        $.post(url, $(this).serialize(), function(data) {
+            hideGroupFormModal($myDialog);
+            if (true===data) {
+                window.location.reload();
+                return;
+            }
+            if (data) {
+                if ($(data).hasClass('modal')) {
+                    hideGroupFormModal($(data));
+                } else {
+                    Bootbox.alert(data);
+                }
+            }
         });
     });
 
