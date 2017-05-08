@@ -2,4 +2,5 @@
 # 存量上线申请 是否需要多级审批
 # default: false 不需要多寄审批
 requests_need_approve: ${CHEMICAL_REQUESTS_NEED_APPROVE}
+chemical_approve_process: ${ADMIN_CHEMICAL_APPROVE_PROCESS}
 ...
