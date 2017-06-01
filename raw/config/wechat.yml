@@ -1,0 +1,14 @@
+gateway:
+  url: ${WEIXIN_GATEWAY_URL}
+  api_url: ${WEIXIN_GATEWAY_API}
+  client_id: ${WEIXIN_GATEWAY_CLIENT_ID}
+  client_secret: ${WEIXIN_GATEWAY_CLIENT_SECRET}
+templates:
+  request-need-review:
+    id: q4x2IJ0nDWWXWi_7Kh-64Xl9HPPUbn3cHv85XKOBSj4
+    content:
+      title: first
+      type: keyword1
+      requester: keyword2
+      request_date: keyword3
+      note: remark
