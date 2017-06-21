@@ -2,6 +2,7 @@
 title: ${ADMIN_APP_TITLE}
 node: ${MALL_NODE}
 debade_secret: ${DEBADE_SECRET}
+chemical_approve_process: ${ADMIN_CHEMICAL_APPROVE_PROCESS}
 rpc:
   gateway:
     url: ${GATEWAY_API}
