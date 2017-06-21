@@ -206,4 +206,15 @@ define('page/manager/member', ['jquery', 'bootbox', 'board', 'more', 'url', 'uti
             }
         });
     });
+
+    $('body').ready(function(){
+        var $searchResults = $('.access-members').find('.search-results');
+        var $searchForm = $('.access-members').find('.search-form');
+        var maxHeight = $(window).height();
+        var searchHeight = $searchForm.height();
+        $searchResults.css({
+            'height' : maxHeight - searchHeight - 100 ,
+            'overflow': 'scroll'
+        });
+    });
 });
