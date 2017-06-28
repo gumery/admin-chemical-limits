@@ -66,7 +66,7 @@ class Request extends \Gini\Controller\CGI
         return \Gini\IoC::construct('\Gini\CGI\Response\JSON', [
             'code' => $bool ? 0 : 1,
             'id'=> $id,
-            'message' => $message ?: ($bool ? T('操作成功') : T('操作失败, 请您重试')),
+            'message' => $bool ? T('操作成功') : T('操作失败, 请您重试'),
         ]);
     }
 
