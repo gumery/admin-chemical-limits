@@ -113,26 +113,18 @@ class Reagent extends \Gini\Controller\CGI
         // 设置为空，表示不限制购买
         if ($value==='') return true;
         $criteria = [];
-        $haz_types = array_keys(\Gini\ORM\Inventory::$rgt_types);
+        $types = array_keys(\Gini\ORM\Inventory::$rgt_types);
         if (!array_key_exists($cas, $default_cas_nos)) {
-            $chem = (array)\Gini\ChemDB\Client::getChemicalInfo($cas);
-            foreach ($chem as $type => $chem) {
-                //根据优先级（易制毒 > 易制爆 > 剧毒品 > 危化品 ）选择类别
-                if (in_array($type, $haz_types)) {
-                    $state = $chem['state'];
-                    break;
-                }
-            }
-            if ($state) {
-                $criteria = ['cas' => $cas, 'state' => $state, 'default'];
+            $chemInfo = (array)\Gini\ChemDB\Client::getChemicalInfo($cas);
+            $criteria[] = "cas/{$cas}";
+            $stat = $chemInfo['state'];
+            if ($stat) {
+                $criteria[] = $state;
             }
         }
+        $criteria[] = 'default';
 
-        if (!$criteria) {
-            $chem = ['default'];
-        }
-
-        return \Gini\Unit\Conversion::of($chem)->validate($value);
+        return \Gini\Unit\Conversion::of($criteria)->validate($value);
 
     }
 
@@ -245,9 +237,7 @@ class Reagent extends \Gini\Controller\CGI
 
         if ($cas && !in_array($cas, array_keys(\Gini\ORM\Inventory\Reagent::$default_cas_nos))) {
             $chemicalInfo = \Gini\ChemDB\Client::getChemicalInfo($cas);
-            if (empty($chemicalInfo) ||
-                !count(array_intersect($chemicalInfo['types'], array_keys(\Gini\ORM\Inventory::$rgt_types)))
-                ) {
+            if (empty($chemicalInfo)) {
                 return \Gini\IoC::construct('\Gini\CGI\Response\JSON', [
                     'code'=> 4,
                     'message'=> T('设置失败，请您重试')
