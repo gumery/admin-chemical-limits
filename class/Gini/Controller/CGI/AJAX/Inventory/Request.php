@@ -141,7 +141,7 @@ class Request extends \Gini\Controller\CGI
             'type'=> $type,
             'page'=> $page,
             'total'=> ceil($totalCount/$limit),
-            'hazTypes' => \Gini\Config::get('haz.types')
+            'hazTypes' => \Gini\ORM\Inventory::$rgt_types
         ]));
     }
 
@@ -191,7 +191,7 @@ class Request extends \Gini\Controller\CGI
             'type'=> $type,
             'page'=> $page,
             'total'=> ceil($tasks->totalCount()/$limit),
-            'hazTypes' => \Gini\Config::get('haz.types')
+            'hazTypes' => \Gini\ORM\Inventory::$rgt_types
         ]));
     }
 
